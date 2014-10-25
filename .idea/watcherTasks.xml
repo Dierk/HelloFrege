@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectTasksOptions">
+    <TaskOptions isEnabled="true">
+      <option name="arguments" value="-Xss1m -classpath $Classpath$ frege.compiler.Main -inline -make -d $ProjectFileDir$/target/frege -sp $ProjectFileDir$/src/main/frege $FilePath$" />
+      <option name="checkSyntaxErrors" value="true" />
+      <option name="description" value="instantly call the frege compiler on *.fr files" />
+      <option name="exitCodeBehavior" value="ERROR" />
+      <option name="fileExtension" value="Haskell" />
+      <option name="immediateSync" value="true" />
+      <option name="name" value="Frege compile" />
+      <option name="output" value="" />
+      <option name="outputFilters">
+        <array />
+      </option>
+      <option name="outputFromStdout" value="false" />
+      <option name="passParentEnvs" value="true" />
+      <option name="program" value="$JDKPath$/bin/java" />
+      <option name="scopeName" value="Frege Files" />
+      <option name="trackOnlyRoot" value="false" />
+      <option name="workingDir" value="$ProjectFileDir$" />
+      <envs />
+    </TaskOptions>
+  </component>
+</project>

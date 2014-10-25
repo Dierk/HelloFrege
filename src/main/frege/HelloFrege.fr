@@ -1,0 +1,10 @@
+module HelloFrege where
+
+greeting = "Hello Frege"
+
+import Test.QuickCheck
+
+testLength = once (length greeting == 11)
+
+main _ = do
+    println greeting

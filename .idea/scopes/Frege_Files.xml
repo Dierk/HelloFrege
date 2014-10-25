@@ -1,0 +1,3 @@
+<component name="DependencyValidationManager">
+  <scope name="Frege Files" pattern="file:src/main/frege//*.fr" />
+</component>
