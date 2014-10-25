@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="001b385c-5919-48c5-a8c7-ec4278f45086" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/runConfigurations/Frege_REPL.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/README.md" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="HelloFrege.iws" />
@@ -29,11 +29,24 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="HelloFrege.fr" pinned="false" current-in-tab="true">
+      <file leaf-file-name="HelloFrege.fr" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/frege/HelloFrege.fr">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.196793" vertical-offset="0" max-vertical-offset="686">
+            <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="225">
               <caret line="9" column="20" selection-start-line="9" selection-start-column="20" selection-end-line="9" selection-end-column="20" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="README.md" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/README.md">
+          <provider editor-type-id="MarkdownPreviewEditor">
+            <state />
+          </provider>
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.035714287" vertical-offset="0" max-vertical-offset="420">
+              <caret line="1" column="27" selection-start-line="1" selection-start-column="27" selection-end-line="1" selection-end-column="27" />
               <folding />
             </state>
           </provider>
@@ -44,16 +57,6 @@
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0" vertical-offset="60" max-vertical-offset="150">
               <caret line="4" column="19" selection-start-line="4" selection-start-column="19" selection-end-line="4" selection-end-column="19" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="vcs.xml" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/.idea/vcs.xml">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="165">
-              <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
               <folding />
             </state>
           </provider>
@@ -72,9 +75,11 @@
       <file leaf-file-name="workspace.xml" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/.idea/workspace.xml">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="5625" max-vertical-offset="10575">
-              <caret line="388" column="3" selection-start-line="388" selection-start-column="3" selection-end-line="388" selection-end-column="3" />
-              <folding />
+            <state vertical-scroll-proportion="0.0" vertical-offset="5790" max-vertical-offset="10995">
+              <caret line="399" column="3" selection-start-line="399" selection-start-column="3" selection-end-line="399" selection-end-column="3" />
+              <folding>
+                <marker date="1414264168000" expanded="true" signature="39114:39202" placeholder="..." />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -359,7 +364,7 @@
       <updated>1414256579734</updated>
       <workItem from="1414256581048" duration="1286000" />
       <workItem from="1414260015972" duration="2413000" />
-      <workItem from="1414263426395" duration="294000" />
+      <workItem from="1414263426395" duration="500000" />
     </task>
     <task id="LOCAL-00001" summary="initial">
       <created>1414261165581</created>
@@ -379,11 +384,17 @@
       <option name="project" value="LOCAL" />
       <updated>1414261555156</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="initial">
+      <created>1414264023073</created>
+      <option name="number" value="00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1414264023073</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="3993000" />
+    <option name="totallyTimeSpent" value="4199000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="657" y="265" width="1350" height="804" extended-state="0" />
@@ -392,12 +403,13 @@
       <window_info id="Palette&#9;" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3286517" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.3286517" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3286517" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Kotlin Bytecode" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
@@ -411,7 +423,6 @@
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3286517" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
     </layout>
@@ -507,7 +518,9 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="5925" max-vertical-offset="10530">
           <caret line="408" column="3" selection-start-line="408" selection-start-column="3" selection-end-line="408" selection-end-column="3" />
-          <folding />
+          <folding>
+            <marker date="1414264168000" expanded="true" signature="39114:39202" placeholder="..." />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -538,7 +551,9 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="5145" max-vertical-offset="8175">
           <caret line="356" column="3" selection-start-line="356" selection-start-column="3" selection-end-line="356" selection-end-column="3" />
-          <folding />
+          <folding>
+            <marker date="1414264168000" expanded="true" signature="39114:39202" placeholder="..." />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -574,9 +589,11 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/.idea/workspace.xml">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="5625" max-vertical-offset="10575">
-          <caret line="388" column="3" selection-start-line="388" selection-start-column="3" selection-end-line="388" selection-end-column="3" />
-          <folding />
+        <state vertical-scroll-proportion="0.0" vertical-offset="5790" max-vertical-offset="10995">
+          <caret line="399" column="3" selection-start-line="399" selection-start-column="3" selection-end-line="399" selection-end-column="3" />
+          <folding>
+            <marker date="1414264168000" expanded="true" signature="39114:39202" placeholder="..." />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -614,8 +631,19 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/frege/HelloFrege.fr">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.196793" vertical-offset="0" max-vertical-offset="686">
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="225">
           <caret line="9" column="20" selection-start-line="9" selection-start-column="20" selection-end-line="9" selection-end-column="20" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/README.md">
+      <provider editor-type-id="MarkdownPreviewEditor">
+        <state />
+      </provider>
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.035714287" vertical-offset="0" max-vertical-offset="420">
+          <caret line="1" column="27" selection-start-line="1" selection-start-column="27" selection-end-line="1" selection-end-column="27" />
           <folding />
         </state>
       </provider>
