@@ -4,8 +4,8 @@
     <exclude-output />
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
-    <orderEntry type="library" scope="RUNTIME" name="frege-3.21.500" level="application" />
-    <orderEntry type="library" scope="RUNTIME" name="frege-repl 1.0.3" level="application" />
+    <orderEntry type="library" name="com.theoryinpractise.frege:frege:3.22.367" level="application" />
+    <orderEntry type="library" name="frege-repl 1.1.1-SNAP" level="application" />
     <orderEntry type="module-library" scope="RUNTIME">
       <library>
         <CLASSES>

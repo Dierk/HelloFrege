@@ -7,6 +7,6 @@
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
-    <orderEntry type="library" name="frege-3.21.500" level="application" />
+    <orderEntry type="library" name="com.theoryinpractise.frege:frege:3.22.367" level="application" />
   </component>
 </module>
