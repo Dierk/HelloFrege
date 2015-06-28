@@ -1,0 +1,15 @@
+module TypeClassExample where
+
+class Millimeter (Integral a)  => a  where
+	mm :: a -> a
+	cm :: a -> a
+	m  :: a -> a
+
+instance Millimeter Int where
+	mm i = i
+	cm i = i.mm * 10 
+	m  i = i.cm * 100 
+
+main args = do
+    println $ 10.m - 20.cm + 10.mm - 3.cm  == 9780.mm
+
