@@ -1,0 +1,35 @@
+module TypeClassForWrapper where
+
+{--
+	Make a variant of TypeClassExample where the calculation with 
+	Metrics is type safe, i.e. one cannot mix Metric calculations with plain numbers.
+    It appears, though, that one can mix them with Int. (???)	
+--}
+
+data Millis = MM {val::Int}
+
+instance Num Millis where
+    zero  = MM {val = 0}
+    one   = MM {val = 1}
+    a + b = MM {val = a.val + b.val }
+    a - b = MM {val = a.val - b.val }
+    a * b = MM {val = a.val * b.val }
+    a <=> b = a.val <=> b.val
+    hashCode    a = hashCode a.val
+    fromInt     a = MM {val = a}
+    fromInteger a = MM {val = a.fromIntegral}
+
+class Metric (Integral a)  => a  where
+	mm :: a -> Millis
+	cm :: a -> Millis
+	m  :: a -> Millis
+
+instance Metric Int where
+	mm i = MM {val = i}
+	cm i = i.mm * 10   -- why does this compile ?
+	m  i = i.cm * 100  -- why does this compile ?
+
+main args = do
+    println $ 10.m - 20.cm + 10.mm - 3.cm      == 9780.mm
+    println $ 10.m - 20.cm + 10.mm - 3.cm + 3  == 9783.mm  -- why does this compile ?
+
