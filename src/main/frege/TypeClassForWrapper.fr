@@ -2,14 +2,18 @@ module TypeClassForWrapper where
 
 {--
     Make a variant of TypeClassExample where the calculation with 
-    Metrics is type safe, i.e. one cannot mix Metric calculations with plain numbers.
-    It appears, though, that one can mix them with Int. (???)	
+    Metrics is type safe, i.e. one cannot mix Metric calculations with plain numbers -
+    except Int, which serves as the base unit (see fromInt).
 --}
 
 
-data Millis = MM Int
+data Millimeter = MM Int
 
-instance Num Millis where
+data Seconds = SEC Int
+
+-- would be nice, if we could "derive" Num
+
+instance Num Millimeter where
     zero = MM 0
     one  = MM 1
     (MM a) + (MM b) = MM (a+b)
@@ -19,18 +23,53 @@ instance Num Millis where
     hashCode (MM a) = hashCode a
     fromInt     a   = MM a
     fromInteger a   = MM a.fromIntegral
+    
+instance Num Seconds where
+    zero = SEC 0
+    one  = SEC 1
+    (SEC a) + (SEC b) = SEC (a+b)
+    (SEC a) - (SEC b) = SEC (a-b)
+    (SEC a) * (SEC b) = SEC (a*b)
+    SEC a  <=> SEC b  = a <=> b
+    hashCode (SEC a)  = hashCode a
+    fromInt     a     = SEC a
+    fromInteger a     = SEC a.fromIntegral    
 
 class Metric (Integral a)  => a  where
-	mm :: a -> Millis
-	cm :: a -> Millis
-	m  :: a -> Millis
+    mm :: a -> Millimeter
+    cm :: a -> Millimeter
+    m  :: a -> Millimeter
+
+class Time (Integral a)  => a  where
+    sec :: a -> Seconds
+    minutes :: a -> Seconds
+    h   :: a -> Seconds
+    
+class Unit (Real a)  => a  where
+    kmh :: a -> Velocity
 
 instance Metric Int where
-	mm i = MM i
-	cm i = i.mm * 10   -- why does this compile ?
-	m  i = i.cm * 100  -- why does this compile ?
+    mm i = MM i
+    cm i = i.mm * 10   
+    m  i = i.cm * 100  
+    
+instance Time Int where
+    sec     i = SEC i
+    minutes i = i.sec * 60   
+    h       i = i.minutes * 60  
+
+instance Unit Double where
+    kmh val = KMH val
+
+data Velocity = KMH Double
+derive Eq   Velocity
+derive Show Velocity
+
+per (MM mm) (SEC sec) = KMH (( mm.fromIntegral / sec.fromIntegral) * 0.0036) 
 
 main args = do
-    println $ 10.m - 20.cm + 10.mm - 3.cm      == 9780.mm
-    println $ 10.m - 20.cm + 10.mm - 3.cm + 3  == 9783.mm  -- why does this compile ?
+    println $ 10.m - 20.cm + 10.mm - 3.cm         == 9780.mm
+    println $ 10.m - 20.cm + 10.mm - 3.cm + 3     == 9783.mm  
+    println $ 3.sec + 1.h - 30.minutes + 3        == 1806.sec
+    println $ (3.m * 500) `per` (3000.sec + 600)  == 1.5.kmh    
 
