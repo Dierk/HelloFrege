@@ -1,13 +1,5 @@
 module SimpleLens where
 
-
-sven :: String -> Int
-sven s = length s
-
-
-
-
-
 data Bank       = Bank      { client    :: Client     }
 data Client     = Client    { portfolio :: Portfolio  }
 data Portfolio  = Portfolio { position  :: Position   }
@@ -38,26 +30,11 @@ updatePosition2 f bank = bank.{client <- } _.{portfolio <- _.{position <- f } }
 updatePosition3 :: (Position -> Position) -> Bank -> Bank
 updatePosition3 f bank = bank.{client <- } $ _.{portfolio <- } _.{position <- f }
 
-upClient ::  (Client -> Client) -> Bank -> Bank
-upClient = \f -> _.{client <- } f
-
-upPortfolio :: (Portfolio -> Portfolio) -> Client -> Client
-upPortfolio f client = client.{portfolio <- } f
-
-upPosition :: (Position -> Position) -> Portfolio -> Portfolio
-upPosition f portfolio = portfolio.{position <- } f
-
-composeUp :: ((b -> b) -> a -> a) -> ((c -> c) -> b -> b) -> (c -> c) -> (a -> a) 
-composeUp af bf c2c = \a -> af (\b2b -> bf c2c b2b) a 
-
-up1 :: (Position -> Position) -> Client -> Client
-up1 =   upPortfolio `composeUp` upPosition 
-
 updatePosition4 :: (Position -> Position) -> Bank -> Bank
-updatePosition4 =  upClient .> upPortfolio .> upPosition  
+updatePosition4 =  flip _.{client <-} . flip _.{portfolio <-} . flip _.{position <-}   
 
-infixr 8 `.>`
-(.>) = composeUp
+updateSoMany :: (Int -> Int) -> Bank -> Bank
+updateSoMany = updatePosition4 . flip _.{soMany <- }
 
 main _ = do
     println "--- classic record usage"
@@ -79,6 +56,8 @@ main _ = do
     println "--- using updatePosition2 "
     println $ updatePosition2 _.{soMany <- (+2) } nextBank
     println "--- using updatePosition3 "
-    println $ updatePosition3 _.{soMany <- (+3) } nextBank
+    println $ updatePosition3 _.{soMany <- (+3) } nextBank 
     println "--- using updatePosition4 "
-    println $ updatePosition4 _.{soMany <- (+4) } nextBank
+    println $ updatePosition4 _.{soMany <- (+4) } nextBank 
+    println "--- using updateSoMany "
+    println $ updateSoMany (+5) nextBank 
