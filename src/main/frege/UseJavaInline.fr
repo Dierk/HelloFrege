@@ -1,0 +1,22 @@
+
+module UseJavaInline where
+
+native module where {
+  public static class HelloNative {
+    public static void helloNative(String name) {
+      System.out.println("Hello " + name);
+    }
+  }
+}
+
+data Date = mutable native java.util.Date where
+    native new :: () -> IO Date
+    native toString :: Date -> IO String
+    
+
+native helloNative HelloNative.helloNative :: String -> IO ()
+
+main = do
+    helloNative "Foo"
+    date <- Date.new ()    
+    println =<< date.toString

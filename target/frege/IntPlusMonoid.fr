@@ -1,0 +1,9 @@
+ 
+module IntPlusMonoid where
+
+import frege.data.Monoid
+
+instance Monoid Int where
+    mempty = 0
+    mappend x y = x + y
+    

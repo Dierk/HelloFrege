@@ -1,0 +1,24 @@
+--- Equivalence to Command Chains and Builders made from record syntax
+module CommandExpression where
+
+data Binding = Binding { source, target :: String } 
+derive Show Binding
+
+to = true
+link source _ target = Binding {source = source, target = target }
+
+main _ = do
+    -- some arbitrary data types, we use String as an example
+    producer = "start"
+    consumer = "end"
+    
+    -- alternative one: just use record syntax directly
+    println Binding {source = producer, target = consumer }
+    
+    -- alternative two: command expression
+    println $ link producer to consumer
+    
+    -- alternative three: builder style
+    begin = link producer
+    chain = begin to consumer
+    println chain

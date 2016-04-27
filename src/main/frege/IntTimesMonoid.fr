@@ -1,0 +1,10 @@
+ 
+module IntTimesMonoid where
+
+import frege.data.Monoid
+
+instance Monoid Int where
+    mempty = 1
+    mappend x y = x * y
+    
+ 

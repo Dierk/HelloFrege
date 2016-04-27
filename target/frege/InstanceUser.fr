@@ -1,0 +1,8 @@
+module InstanceUser where
+
+import IntPlusMonoid
+--import IntTimesMonoid
+
+main = do 
+    println $ show $ Monoid_Int.mappend 1 2
+     

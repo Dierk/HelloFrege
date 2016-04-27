@@ -1,0 +1,17 @@
+module FunctionRecord where
+
+data FRecord    = FRecord {
+    parent      :: FRecord,
+    name        :: String,
+    toString    :: (FRecord ->  String)
+}
+
+prototype = FRecord   { parent = prototype, name = undefined, toString = (\r -> r.name) }
+dierk     = prototype.{ name = "Dierk" }
+phil      = prototype.{ name = "Phil", toString = (\r -> "Wadler") }
+
+main _ = do
+    println $ prototype.toString dierk  -- Dierk
+    println $ prototype.toString phil   -- Phil   (prototype  toString)
+    println $ phil.toString phil        -- Wadler (overridden toString)
+    println $ phil.parent.toString phil -- Phil   (parent     toString)

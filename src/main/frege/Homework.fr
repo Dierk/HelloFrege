@@ -1,0 +1,12 @@
+module Homework where
+
+
+liftMx :: Monad m => (a -> b) -> m a -> m b
+
+liftMx f m = do 
+    a <- m 
+    return (f a) 
+
+main _ = do
+    println "hi"
+    println $ liftMx (+1) [1,2,3]

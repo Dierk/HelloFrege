@@ -1,0 +1,5 @@
+module ListCheck where
+
+import Test.QuickCheck
+
+reverse_of_reverse_is_original = property (\xs -> reverse(reverse xs) == (xs :: [Int]) )

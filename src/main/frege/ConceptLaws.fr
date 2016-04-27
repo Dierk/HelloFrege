@@ -1,0 +1,35 @@
+-- cp http://austinrochford.com/posts/2014-05-27-quickcheck-laws.html
+
+module ConceptLaws where
+
+import Data.Monoid
+import Test.QuickCheck
+
+associativity  x y z = x <> (y <> z) == (x <> y) <> z
+neutralElement x     = Monoid.mempty <> x == x && x <> Monoid.mempty == x
+
+-- Lists are monoids
+listAssociativity  = property $ \(x::[Int]) (y::[Int]) (z::[Int]) -> associativity x y z
+listNeutralElement = property $ \(x::[Int]) -> neutralElement x
+
+import IntPlusMonoid  -- Int is a monoid with (+) 0 and with (*) 1 but only one can be tested per module
+intPlusAssociativity  = property $ \(x::Int) (y::Int) (z::Int) -> associativity x y z
+intPlusNeutralElement = property $ \(x::Int) -> neutralElement x
+
+-- Strings are monoids
+stringAssociativity  = property $ \(x::String) (y::String) (z::String) -> associativity x y z
+stringNeutralElement = property $ \(x::String) -> neutralElement x
+
+-- Guess what: unit is a monoid!
+unitAssociativity  = property $ \(x::()) (y::()) (z::()) -> associativity x y z
+unitNeutralElement = property $ \(x::()) -> neutralElement x
+
+-- Maybe is monoidal
+maybeAssociativity  = property $ \(x::Maybe Int) (y::Maybe Int) (z::Maybe Int) -> associativity x y z
+maybeNeutralElement = property $ \(x::Maybe Int) -> neutralElement x
+
+-- Ordering is monoidal
+ordAssociativity  = property $ \(x::Ordering) (y::Ordering) (z::Ordering) -> associativity x y z
+ordNeutralElement = property $ \(x::Ordering) -> neutralElement x
+
+-- there is no chance for doing this for the monoidal (a->a) -- try using Endo

@@ -1,0 +1,26 @@
+--- This is an undocumented module
+module ConcurrentParallel where
+
+import frege.lib.ForkJoin
+import frege.control.monad.State
+
+bar s
+    | traceLn ("called with " ++ s) = s
+    | otherwise = " bar: " ++ s
+
+doit ∷ (()→String) → IO Long
+doit f = do
+    start <- System.currentTimeMillis ()
+    x = f ()    
+    println x
+    end <- System.currentTimeMillis () 
+    return $ end - start
+
+main _ = do
+    result <- doit (\() -> let
+        a = bar "a";
+        b = bar "b";
+        in a `par` b `par` (a ++ b) )    
+    println $ show result
+
+    

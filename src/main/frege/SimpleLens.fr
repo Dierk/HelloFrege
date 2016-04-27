@@ -1,0 +1,84 @@
+module SimpleLens where
+
+
+sven :: String -> Int
+sven s = length s
+
+
+
+
+
+data Bank       = Bank      { client    :: Client     }
+data Client     = Client    { portfolio :: Portfolio  }
+data Portfolio  = Portfolio { position  :: Position   }
+data Position   = Position  { soMany :: Int, ticker :: Ticker }
+
+derive Show Bank
+derive Show Client
+derive Show Portfolio
+derive Show Position
+
+data Ticker = GOOG | MSFT | APPL | CANO | NOOB
+derive Show Ticker
+
+bank = Bank {
+    client = Client {
+        portfolio = Portfolio {
+            position = Position { soMany = 8, ticker = CANO }
+        }
+    }
+}
+
+updatePosition :: (Position -> Position) -> Bank -> Bank
+updatePosition f bank = bank.{client <- _.{portfolio <- _.{position <- f } } } 
+
+updatePosition2 :: (Position -> Position) -> Bank -> Bank
+updatePosition2 f bank = bank.{client <- } _.{portfolio <- _.{position <- f } }
+
+updatePosition3 :: (Position -> Position) -> Bank -> Bank
+updatePosition3 f bank = bank.{client <- } $ _.{portfolio <- } _.{position <- f }
+
+upClient ::  (Client -> Client) -> Bank -> Bank
+upClient = \f -> _.{client <- } f
+
+upPortfolio :: (Portfolio -> Portfolio) -> Client -> Client
+upPortfolio f client = client.{portfolio <- } f
+
+upPosition :: (Position -> Position) -> Portfolio -> Portfolio
+upPosition f portfolio = portfolio.{position <- } f
+
+composeUp :: ((b -> b) -> a -> a) -> ((c -> c) -> b -> b) -> (c -> c) -> (a -> a) 
+composeUp af bf c2c = \a -> af (\b2b -> bf c2c b2b) a 
+
+up1 :: (Position -> Position) -> Client -> Client
+up1 =   upPortfolio `composeUp` upPosition 
+
+updatePosition4 :: (Position -> Position) -> Bank -> Bank
+updatePosition4 =  upClient .> upPortfolio .> upPosition  
+
+infixr 8 `.>`
+(.>) = composeUp
+
+main _ = do
+    println "--- classic record usage"
+    newPos = bank.client.portfolio.position.{soMany <-} (+1)
+    newPortf = bank.client.portfolio.{position =} newPos
+    newClient = bank.client.{portfolio =} newPortf
+    newBank = bank.{client =} newClient
+    nextBank = newBank.{client <- _.{portfolio <- _.{position <- _.{soMany <- (+1) } } } } 
+    
+    println $ show bank.client.portfolio.position
+    println newPos
+    println newPortf
+    println newClient
+    println newBank
+    println nextBank
+    
+    println "--- using updatePosition "
+    println $ updatePosition  _.{soMany <- (+1) } nextBank
+    println "--- using updatePosition2 "
+    println $ updatePosition2 _.{soMany <- (+2) } nextBank
+    println "--- using updatePosition3 "
+    println $ updatePosition3 _.{soMany <- (+3) } nextBank
+    println "--- using updatePosition4 "
+    println $ updatePosition4 _.{soMany <- (+4) } nextBank

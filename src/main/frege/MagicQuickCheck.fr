@@ -1,0 +1,11 @@
+module MagicQuickCheck where
+
+import Test.QuickCheck
+
+f = reverse
+g x = x*2
+
+commutativity = property (\xs -> map g (f xs) == f (map g xs))
+
+main = do
+    quickCheck commutativity

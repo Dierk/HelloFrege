@@ -1,0 +1,12 @@
+module PiBuzz where
+
+evens    = iterate (+2) 2.0
+term x   = 4 / ( x * (x+1) * (x+2) )
+terms    = map term evens
+toggle   = cycle [id, negate]
+summands = zipWith ($) toggle terms
+ 
+import Prelude.Math
+main args = do
+    println $ 3 + sum (take 10 summands)
+    println $ 3 + sum (take 1_000 summands) - Math.pi

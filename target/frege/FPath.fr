@@ -1,0 +1,89 @@
+module FPath where
+
+import Data.List (lookup)
+
+data Bank       = Bank      { clients       :: [Client]     }
+data Client     = Client    { portfolios    :: [Portfolio]  }
+data Portfolio  = Portfolio { positions     :: [Position]   }
+data Position   = Position  { soMany :: Int, ticker :: Ticker }
+
+data Ticker = GOOG | MSFT | APPL | CANO | NOOB
+derive Eq Ticker
+
+prices = [ (GOOG, 100) , (MSFT, 200) , (APPL, 300) , (CANO, 400) ]
+
+bank = Bank { clients = replicate 1000
+    Client { portfolios = replicate 3
+        Portfolio { positions = [
+            Position { soMany = 1, ticker = APPL },
+            Position { soMany = 2, ticker = MSFT },
+            Position { soMany = 8, ticker = CANO }
+        ]}
+    }
+}
+
+value :: Position -> Int
+value position = calculate $ lookup position.ticker prices where
+    calculate Nothing      = 0
+    calculate (Just price) = position.soMany * price
+
+assetsUnderManagement1 = sum $
+    map value $
+        bank.clients >>= Client.portfolios >>= Portfolio.positions
+
+allCanoo1 = sum $
+    map value $
+        bank.clients >>= Client.portfolios >>= filter canoo . Portfolio.positions where
+            canoo position = position.ticker == CANO
+
+assetsUnderManagement2 = sum $
+    map value do
+        client    <- bank.clients
+        portfolio <- client.portfolios
+        portfolio.positions
+
+
+allCanoo2 = sum $
+    map value do
+        client    <- bank.clients
+        portfolio <- client.portfolios
+        filter canoo portfolio.positions
+    where
+        canoo position = position.ticker == CANO
+
+assetsUnderManagement3 = sum
+    [value position |
+        client    <- bank.clients,
+        portfolio <- client.portfolios,
+        position  <- portfolio.positions
+    ]
+
+allCanoo3 = sum
+    [value position |                       -- SELECT
+        client    <- bank.clients,          -- FROM
+        portfolio <- client.portfolios,
+        position  <- portfolio.positions,
+        position.ticker == CANO             -- WHERE
+    ]
+
+first :: [a] -> a
+first xs = head xs
+
+main _ = do
+    println assetsUnderManagement1
+    println assetsUnderManagement2
+    println assetsUnderManagement3
+--    println bank.clients.first --.portfolios.head.positions.head.soMany
+
+import Test.QuickCheck
+
+zeroValue     = once     $             0 == value (Position 5 NOOB)
+multipleValue = property $ \n -> 100 * n == value (Position n GOOG)
+
+aum1          = once $  1000 * 3 * (300 + 2 * 200 + 8 * 400 ) == assetsUnderManagement1
+aum2          = once $  assetsUnderManagement1 == assetsUnderManagement2
+aum3          = once $  assetsUnderManagement2 == assetsUnderManagement3
+
+canoo1        = once $  1000 * 3 * ( 8 * 400 ) == allCanoo1
+canoo2        = once $  allCanoo1 == allCanoo2
+canoo3        = once $  allCanoo2 == allCanoo3

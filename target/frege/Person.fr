@@ -1,0 +1,50 @@
+-- http://stackoverflow.com/questions/29053945/mutable-references-to-immutable-data-in-haskell/29054402#29054402
+module Person where
+
+import frege.control.monad.State
+
+data Person = Person {name, level, topic :: String }
+
+derive Show Person
+
+dierk = Person "Dierk" "confident" "Java"
+
+works :: Person -> String
+works person = person.name ++ " is " ++ person.level ++ " in " ++ person.topic
+
+printCurrentPerson :: StateT Person IO ()
+printCurrentPerson = do
+    person <- StateT.get            -- independent of any particular person reference
+    StateT.lift $ println $ works person
+
+updateCurrentPerson :: Monad m => String -> String -> StateT Person m ()
+updateCurrentPerson level topic = do
+    StateT.modify (\person -> Person.{level= level, topic=topic} person)
+
+usingMutableRefsToImmutableState :: Person -> IO ((),Person)
+usingMutableRefsToImmutableState start =
+    flip StateT.run start $ do
+        printCurrentPerson
+        updateCurrentPerson "proficient" "Groovy"
+        printCurrentPerson
+        StateT.lift $ println "-- user input could influence which selection is 'current' "
+        updateCurrentPerson "dabbling" "Haskell"
+        printCurrentPerson
+
+main = do -- using the StateT transformer to work in combination with any monad (here: IO)
+    (_, lastPerson) <- usingMutableRefsToImmutableState dierk
+    println "-- a second round with relaying the last person"
+    _ <- usingMutableRefsToImmutableState lastPerson
+    return ()
+
+{-  output
+    Dierk is confident in Java
+    Dierk is proficient in Groovy
+    -- user input could influence which selection is 'current'
+    Dierk is dabbling in Haskell
+    -- a second round with relaying the last person
+    Dierk is dabbling in Haskell
+    Dierk is proficient in Groovy
+    -- user input could influence which selection is 'current'
+    Dierk is dabbling in Haskell
+-}

@@ -1,0 +1,52 @@
+module DbUse where
+
+data Person = Person {
+    firstname :: String,
+    lastname  :: String
+}
+derive Show Person
+
+db = [
+      Person {firstname = "Dierk", lastname = "König"},
+      Person {firstname = "Ingo", lastname = "Wechsung"},
+      Person {firstname = "Gottlob", lastname = "Frege"}
+     ]
+
+native module where {
+  public static class Hello {
+    public static void inspect(Object name) {
+      System.out.println("> " + name.toString());
+      for(java.lang.reflect.Method f : name.getClass().getDeclaredMethods()) {
+        if (f.getName().toString().contains("$")) continue;
+        if (f.getName().toString().equals("mk")) continue;
+        if (f.getName().toString().equals("_constructor")) continue;
+        System.out.println(f);
+      }
+    }
+  }
+}
+
+native inspect Hello.inspect :: Result -> IO ()
+
+data Result = Result { name :: String , age ::Int}
+derive Show Result
+row = Result {name = "default", age=1}
+
+fnGetter = Person.firstname
+nameSetter = row.{name =}
+
+mapper person = row.{name = Person.firstname person}
+--mapper person = nameSetter (fnGetter person)
+
+foo (getter, setter) person = setter $ getter person
+
+main _ = do
+    println $ db
+    println $ mapper (head db)
+    println $ foo (fnGetter,nameSetter) (head db)
+    println [ 
+        row.{name = person.firstname} | 
+        person <- db, 
+        person.firstname == "Dierk"
+        ]
+    inspect row.{name="Dierk"}

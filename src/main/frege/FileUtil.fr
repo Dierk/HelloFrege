@@ -1,0 +1,22 @@
+module FileUtil where
+
+
+--- Convenience function that lists all file names (incl. directory names) under a directory that is given by name.
+--- *Caution:* it works on a best-effort basis and does no error checking whatsoever. Don't use at library level.
+--- It returns the empty list in case of any errors.
+listFileNames :: String -> IO [String]
+listFileNames dirname = do
+    dir <- File.new dirname
+    maybeFiles <- dir.list
+    case maybeFiles of
+        Nothing -> return []
+        Just mutableFileNames -> do 
+            fileNameList <- readonly toList mutableFileNames
+            return fileNameList
+
+
+main args = do 
+    filenames <- listFileNames "/flickr"
+    jpgs = filter (~´\.jpg$´) filenames
+    for jpgs println
+    

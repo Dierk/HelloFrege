@@ -1,0 +1,11 @@
+module MapPCount where
+
+import frege.lib.ForkJoin
+
+doSomething x = x * x
+
+sumSquares = sum ( mapP (doSomething) [9,2,3] )
+count   = length ( map doSomething [9, 10, 3, 4, 7, 3, 49, 10, 3, 4, 7, 3, 49, 10, 3, 4, 7, 3, 4, 10] )
+main args  = do
+   println $ sumSquares
+   --println count

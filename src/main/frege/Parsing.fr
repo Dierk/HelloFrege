@@ -1,0 +1,169 @@
+-- Functional parsing library from chapter 8 of Programming in Haskell,
+-- Graham Hutton, Cambridge University Press, 2007.
+-- adapted to Frege by Dierk Koenig
+
+
+module Parsing where
+
+
+import Data.Char
+--import Control.Monad
+
+infixr 5 `+++`
+
+-- The monad of parsers
+-- --------------------
+
+data Parser a =  P ([Char] -> [(a,[Char])])
+
+instance Monad Parser where
+   return v     =  P (\inp -> [(v,inp)])
+-- p >>= f      :: Parser a -> (a -> Parser b) -> Parser b
+--                 p           f
+   p >>= f      =  P (\inp -> case parse p inp of
+                                   [(v,out)] -> parse (f v) out
+                                   []        -> []
+                   )
+
+--instance MonadPlus Parser where
+--   mzero        =  P (\inp -> [])
+--   p `mplus` q  =  P (\inp -> case parse p inp of
+--                                   []        -> parse q inp
+--                                   [(v,out)] -> [(v,out)]
+--                     )
+
+-- Basic parsers
+-- -------------
+failure         :: Parser a
+failure         =  P (\inp -> [])
+item            :: Parser Char
+item            =  P (\inp -> case inp of
+                                 []     -> []
+                                 (x:xs) -> [(x,xs)]
+                     )
+
+parse           :: Parser a -> [Char] -> [(a,[Char])]
+parse (P p) inp =  p inp
+
+return v     =  P (\inp -> [(v,inp)])
+
+-- Choice
+-- ------
+
+(+++)           :: Parser a -> Parser a -> Parser a
+(+++) p q       =  P (\inp -> case parse p inp of
+                                   []        -> parse q inp
+                                   [(v,out)] -> [(v,out)]
+                     )
+
+-- Derived primitives
+-- ------------------
+
+sat           :: (Char -> Bool) -> Parser Char
+sat p         =  do x <- item
+                    if p x then return x else failure
+
+digit         :: Parser Char
+digit         =  sat isDigit
+
+lower         :: Parser Char
+lower         =  sat isLower
+
+upper         :: Parser Char
+upper         =  sat isUpper
+
+letter        :: Parser Char
+letter        =  sat Char.isLetter
+
+alphanum      :: Parser Char
+alphanum      =  sat (\c -> Char.isLetter c || isDigit c)
+
+char          :: Char -> Parser Char
+char x        =  sat (== x)
+
+string        :: [Char] -> Parser [Char]
+string []     =  return []
+string (x:xs) =  do char x
+                    string xs
+                    return (x:xs)
+
+
+comment       :: Parser [Char]
+comment       = do string (unpacked "--")
+                   many (sat (/='\n'))
+--                   char '\n'
+--                   return ()
+
+many          :: Parser a -> Parser [a]
+many p        =  many1 p +++ return []
+
+many1         :: Parser a -> Parser [a]
+many1 p       =  do v  <- p
+                    vs <- many p
+                    return (v:vs)
+
+ident         :: Parser [Char]
+ident         =  do x  <- lower
+                    xs <- many alphanum
+                    return (x:xs)
+
+read :: [Char] -> Int
+read cs = sum [ (ord (fst be) - ord ('0')) * 10 ^ snd be  | be <- zip (reverse cs) [0..] ]
+
+nat           :: Parser Int
+nat           =  do xs <- many1 digit
+                    return (read xs)
+
+int           :: Parser Int
+int           = (do char '-'
+                    n <- nat
+                    return (-n)
+                )
+                +++ nat
+
+space         :: Parser ()
+space         =  do many (sat isSpace)
+                    return ()
+
+
+expr = do n <- natural
+          ns <- many (do symbol ['-']
+                         natural
+                     )
+          return (foldl (-) n ns)
+
+-- Ignoring spacing
+-- ----------------
+
+token      :: Parser a -> Parser a
+token p    =  do space
+                 v <- p
+                 space
+                 return v
+
+identifier :: Parser [Char]
+identifier =  token ident
+
+natural    :: Parser Int
+natural    =  token nat
+
+integer    :: Parser Int
+integer    =  token int
+
+symbol     :: [Char] -> Parser [Char]
+symbol xs  =  token (string xs)
+
+main _ = do
+--    println (read $ unpacked "1234")
+    println (parse item (unpacked "hello"))
+    println (parse (string (unpacked "hello")) (unpacked "hello"))
+    println (parse (return 1 +++ return 2) [])
+    println (parse (return 1) (unpacked "hello"))
+    println (parse (item +++ return 'a') (unpacked "hello"))
+
+
+    println (parse int (unpacked "007"))
+    println (parse int (unpacked "-007"))
+
+    println (parse comment (unpacked "-- tralala --\n"))
+    println (parse expr (unpacked "1 - 2 - 3"))

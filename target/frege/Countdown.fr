@@ -1,0 +1,240 @@
+module Countdown where
+
+-- Countdown example from chapter 11 of Programming in Haskell,
+-- Graham Hutton, Cambridge University Press, 2007.
+-- Template for homework 10 in the FP101x course
+-- Frege adaptions by Dierk Koenig
+
+
+-- How Java's Date looks like through the Frege glasses
+data Date = native java.util.Date where
+    native new :: ()   -> IOMutable   Date              -- new Date()
+    native getTime  :: Mutable s Date -> ST s Long      -- d.getTime()
+
+--- 'IO' action to give us the current time as a long value in milliseconds
+getCPUTime :: IO Long
+getCPUTime = do
+    d <- Date.new ()
+    d.getTime
+
+-- Expressions
+-- -------
+
+data Op                       =  Add | Sub | Mul | Div
+
+valid                         :: Op -> Int -> Int -> Bool
+valid Add _ _                 =  true
+valid Sub x y                 =  x > y
+valid Mul _ _                 =  true
+valid Div x y                 =  x `mod` y == 0
+
+apply                         :: Op -> Int -> Int -> Int
+apply Add x y                 =  x + y
+apply Sub x y                 =  x - y
+apply Mul x y                 =  x * y
+apply Div x y                 =  x `div` y
+
+data Expr                     =  Val Int | App Op Expr Expr
+
+values                        :: Expr -> [Int]
+values (Val n)                =  [n]
+values (App _ l r)            =  values l ++ values r
+
+eval                          :: Expr -> [Int]
+eval (Val n)                  =  [n | n > 0]
+eval (App o l r)              =  [apply o x y | x <- eval l
+                                              , y <- eval r
+                                              , valid o x y]
+
+-- Combinatorial functions
+-- -----------------------
+
+subs                          :: [a] -> [[a]]
+subs []                       =  [[]]
+subs (x:xs)                   =  yss ++ map (x:) yss
+                                 where yss = subs xs
+
+interleave                    :: a -> [a] -> [[a]]
+interleave x []               =  [[x]]
+interleave x (y:ys)           =  (x:y:ys) : map (y:) (interleave x ys)
+
+perms                         :: [a] -> [[a]]
+perms []                      =  [[]]
+perms (x:xs)                  =  concat (map (interleave x) (perms xs))
+
+choices                       :: [a] -> [[a]]
+choices []                    =  [[]]                   -- undefined
+choices xs                    =  [ zs | ys <- subs xs, zs <- perms ys ]
+
+removeone                     :: Eq a => a -> [a] -> [a]  -- comment
+removeone x []                =  []
+removeone x (y:ys)
+    | x == y                  = ys
+    | otherwise               = y : removeone x ys
+
+
+isChoice                      :: Eq a => [a] -> [a] -> Bool     -- comment
+isChoice [] _                 = true
+isChoice (x:xs) []            = false
+isChoice (x:xs) ys            = elem x ys && isChoice xs (removeone x ys)
+
+
+-- Formalising the problem
+-- -----------------------
+
+solution                      :: Expr -> [Int] -> Int -> Bool
+solution e ns n               =  elem (values e) (choices ns) && eval e == [n]
+
+-- Brute force solution
+-- --------------------
+
+split                         :: [a] -> [([a],[a])]
+split []                      = []                          -- undefined
+split [_]                      = []                          -- undefined
+split (x: xs)                 =  ( [x], xs) : [ (x:ls, rs) | (ls, rs) <- split xs]
+
+exprs                         :: [Int] -> [Expr]
+exprs []                      =  []
+exprs [n]                     =  [Val n]
+exprs ns                      =  [e | (ls,rs) <- split ns
+                                    , l       <- exprs ls
+                                    , r       <- exprs rs
+                                    , e       <- combine l r]
+
+combine                       :: Expr -> Expr -> [Expr]
+combine l r                   =  [App o l r | o <- ops]
+
+ops                           :: [Op]
+ops                           =  [Add,Sub,Mul,Div]
+
+solutions                     :: [Int] -> Int -> [Expr]
+solutions ns n                =  [e | ns2 <- choices ns
+                                    , e   <- exprs ns2
+                                    , eval e == [n]]
+
+-- Combining generation and evaluation
+-- -----------------------------------
+
+type Result                   =  (Expr,Int)
+
+results                       :: [Int] -> [Result]
+results []                    =  []
+results [n]                   =  [(Val n,n) | n > 0]
+results ns                    =  [res | (ls,rs) <- split ns
+                                      , lx      <- results ls
+                                      , ry      <- results rs
+                                      , res     <- combine2 lx ry]
+
+combine2                      :: Result -> Result -> [Result]
+combine2 (l,x) (r,y)          =  [(App o l r, apply o x y) | o <- ops
+                                                           , valid o x y]
+
+solutions2                    :: [Int] -> Int -> [Expr]
+solutions2 ns n               =  [e | ns2   <- choices ns
+                                    , (e,m) <- results ns2
+                                    , m == n]
+
+-- Exploiting numeric properties
+-- -----------------------------
+
+valid2                        :: Op -> Int -> Int -> Bool
+valid2 Add x y                =  x <= y
+valid2 Sub x y                =  x > y
+valid2 Mul x y                =  x /= 1 && y /= 1 && x <= y
+valid2 Div x y                =  y /= 1 && x `mod` y == 0
+
+results2                      :: [Int] -> [Result]
+results2 []                   =  []
+results2 [n]                  =  [(Val n,n) | n > 0]
+results2 ns                   =  [res | (ls,rs) <- split ns
+                                      , lx      <- results2 ls
+                                      , ry      <- results2 rs
+                                      , res     <- combine3 lx ry]
+
+combine3                     :: Result -> Result -> [Result]
+combine3 (l,x) (r,y)         =  [(App o l r, apply o x y) | o <- ops
+                                                          , valid2 o x y]
+
+solutions3                   :: [Int] -> Int -> [Expr]
+solutions3 ns n              =  [e | ns2   <- choices ns
+                                   , (e,m) <- results2 ns2
+                                   , m == n]
+
+-- Interactive version for testing
+-- -------------------------------
+
+instance Show Op where
+   show Add                   =  "+"
+   show Sub                   =  "-"
+   show Mul                   =  "*"
+   show Div                   =  "/"
+
+instance Show Expr where
+   show (Val n)               =  show n
+   show (App o l r)           =  bracket l ++ show o ++ bracket r
+                                 where
+                                    bracket (Val n) = show n
+                                    bracket e       = "(" ++ show e ++ ")"
+
+showtime                      :: Long -> String
+showtime t                    =  (show t) ++ " ms"
+
+display                       :: [Expr] -> IO ()
+display es                    =  do t0 <- getCPUTime
+                                    if null es then
+                                       do t1 <- getCPUTime
+                                          print "\nThere are no solutions, verified in "
+                                          print (showtime (t1 - t0))
+                                     else
+                                       do t1 <- getCPUTime
+                                          print "\nOne possible solution is "
+                                          print (show (head es))
+                                          print ", found in "
+                                          print (showtime (t1 - t0))
+                                          print "\n"
+                                          t2 <- getCPUTime
+                                          if null (tail es) then
+                                             print "There are no more solutions"
+                                           else
+                                             do sequence [print e | e <- tail es]
+                                                print "\nThere were "
+                                                print (show (length es))
+                                                print " solutions in total, found in "
+                                                t3 <- getCPUTime
+                                                print (showtime ((t1 - t0) + (t3 - t2)))
+                                    println "."
+                                    println ""
+
+
+main _                        =  do 
+    println "\nCOUNTDOWN NUMBERS GAME SOLVER"
+    println "-----------------------------\n"
+
+--    display (solutions  [1,3,7,10,25,50] 765)
+--    display (solutions2 [1,3,7,10,25,50] 765)
+--    display (solutions3 [1,3,7,10,25,50] 765)
+
+
+import Test.QuickCheck
+
+sublists_example     = once (subs    [1,2,3] == [[], [3], [2], [2, 3], [1], [1, 3], [1, 2], [1, 2, 3]] )
+permutations_example = once (perms   [1,2,3] == [[1, 2, 3], [2, 1, 3], [2, 3, 1], [1, 3, 2], [3, 1, 2], [3, 2, 1]] )
+choices_example      = once (choices [1,2,3] == [[], [3], [2], [2, 3], [3, 2], [1], [1, 3], [3, 1], [1, 2], [2, 1], [1, 2, 3], [2, 1, 3], [2, 3, 1], [1, 3, 2], [3, 1, 2], [3, 2, 1]] )
+
+removeone_example    = once (removeone 2 [1,2,3] == [1,3] )
+isChoice_example     = once (isChoice [1,3,3] [1,2,3,3] )
+isChoice_example2    = once (false == isChoice [1,3,3] [1,2,3] )
+
+-- data-driven testing against invariants. I assume this can be done _much_ better
+
+testLists            = [ [], [1], [1,2], [1,2,3], [1,2,3,4] ]
+allTestsAtOnce invariant = and $ map (\testList -> invariant testList) testLists
+
+choices_invariant xs = and  $ map (\c -> isChoice c xs) (choices xs)
+allChoices           = once $ allTestsAtOnce choices_invariant
+
+split_invariant   xs = and  $ map (\pair -> (fst pair) ++ (snd pair) == xs ) (split xs)
+allSplitInvariants   = once $ allTestsAtOnce split_invariant
+
+split_size_invariant xs = if length xs < 1 then true else (length xs) - 1 == length (split xs)
+allSplitSizes        =  once $ allTestsAtOnce split_size_invariant

@@ -1,0 +1,48 @@
+module ConceptLawsTC where
+
+import Test.QuickCheck
+import Data.Monoid
+import Data.wrapper.Num
+
+
+class (Arbitrary a, Monoid a, Eq a, Show a) => MonoidLawAbiding a where
+    associativity :: Gen a -> Property
+    associativity gen = 
+        forAll gen (\a
+            -> forAll gen (\b 
+            -> forAll gen (\c
+            -> a <> (b <> c) == (a <> b) <> c)))
+    neutrality :: Gen a -> Property
+    neutrality gen =
+        forAll gen (\a
+            -> mempty <> a == a && a <> mempty == a)         
+
+-- String is a Monoid
+instance MonoidLawAbiding String
+stringAssociativity = associativity String.arbitrary
+stringNeutrality    = neutrality    String.arbitrary
+
+-- Maybe is a Monoid
+instance (Arbitrary a, Eq a, Show a, Monoid a) => MonoidLawAbiding (Maybe a)
+arbitraryMaybe :: Gen (Maybe String)
+arbitraryMaybe = arbitrary
+maybeAssociativity = associativity arbitraryMaybe
+maybeNeutrality    = neutrality    arbitraryMaybe
+
+-- Int is a Monoid under (+) 0
+import IntPlusMonoid
+instance MonoidLawAbiding Int
+intAssociativity = associativity Int.arbitrary
+intNeutrality    = neutrality    Int.arbitrary
+
+-- Sum is a Monoid
+instance Arbitrary a => Arbitrary (Sum a) where
+    arbitrary = Sum <$> arbitrary
+instance (Arbitrary a, Eq a, Show a, Monoid a, Num a) => MonoidLawAbiding (Sum a)
+arbitrarySum :: Gen (Sum Int)
+arbitrarySum = arbitrary
+sumAssociativity = associativity arbitrarySum
+sumNeutrality    = neutrality    arbitrarySum
+
+
+

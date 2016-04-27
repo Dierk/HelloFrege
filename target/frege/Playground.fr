@@ -1,0 +1,10 @@
+module Playground where
+
+import FileUtil
+
+
+main args = do 
+    filenames <- listFileNames "/flickr"
+    jpgs = filter (~´\.jpg$´) filenames
+    for jpgs println
+    

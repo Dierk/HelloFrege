@@ -1,0 +1,11 @@
+module FizzBuzz where
+
+fizzes   = cycle ["", "", "fizz"] 
+buzzes   = cycle ["", "", "", "", "buzz"]
+pattern  = zipWith (++) fizzes buzzes 
+impose num word = max (show num) word
+
+fizzbuzz = zipWith impose [1..] pattern 
+
+main _ = do
+    println $ take 15 fizzbuzz

@@ -1,0 +1,56 @@
+module MaybePath where
+
+data Bank       = Bank      { star   :: Maybe Client     }
+data Client     = Client    { star   :: Maybe Portfolio  }
+data Portfolio  = Portfolio { star   :: Maybe Position   }
+data Position   = Position  { soMany :: Int, ticker :: Ticker }
+
+data Ticker = GOOG | MSFT | APPL | CANO | NOOB
+derive Eq Ticker
+
+starBank = Bank {
+    star = Just Client {
+        star = Just Portfolio {
+            star = Just Position { soMany = 8, ticker = CANO }
+        }
+    }
+}
+
+noStarBank      = Bank { star = Nothing }
+noPortfolioBank = Bank { star = Just Client { star = Nothing } }
+
+starTicker1 :: Bank -> Maybe Ticker
+starTicker1 bank = starPortfolio bank.star where
+    starPortfolio Nothing = Nothing
+    starPortfolio (Just client) = starPosition client.star where
+        starPosition Nothing = Nothing
+        starPosition (Just portfolio) = starTicker portfolio.star where
+            starTicker Nothing = Nothing
+            starTicker (Just position) = Just position.ticker
+
+starTicker2 :: Bank -> Maybe Ticker
+starTicker2 bank =
+    bank.star >>= Client.star >>= Portfolio.star >>= \position -> Just position.ticker
+
+starTicker3 :: Bank -> Maybe Ticker
+starTicker3 bank = do
+    warrenBuffet  <- bank.star
+    starPortfolio <- warrenBuffet.star
+    starPosition  <- starPortfolio.star
+    Just starPosition.ticker
+
+
+
+import Test.QuickCheck
+
+star11 = once $ starTicker1 starBank        == Just CANO
+star12 = once $ starTicker1 noStarBank      == Nothing
+star13 = once $ starTicker1 noPortfolioBank == Nothing
+
+star21 = once $ starTicker2 starBank        == Just CANO
+star22 = once $ starTicker2 noStarBank      == Nothing
+star23 = once $ starTicker2 noPortfolioBank == Nothing
+
+star31 = once $ starTicker3 starBank        == Just CANO
+star32 = once $ starTicker3 noStarBank      == Nothing
+star33 = once $ starTicker3 noPortfolioBank == Nothing
