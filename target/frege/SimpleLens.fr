@@ -25,24 +25,24 @@ updatePosition :: (Position -> Position) -> Bank -> Bank
 updatePosition f bank = bank.{client <- _.{portfolio <- _.{position <- f } } } 
 
 updatePosition2 :: (Position -> Position) -> Bank -> Bank
-updatePosition2 f bank = bank.{client <- } _.{portfolio <- _.{position <- f } }
+updatePosition2 f bank = bank.{client <-} _.{portfolio <- _.{position <- f } }
 
 updatePosition3 :: (Position -> Position) -> Bank -> Bank
-updatePosition3 f bank = bank.{client <- } $ _.{portfolio <- } _.{position <- f }
+updatePosition3 f bank = bank.{client <-} $ _.{portfolio <-} _.{position <- f }
 
 updatePosition4 :: (Position -> Position) -> Bank -> Bank
 updatePosition4 =  flip _.{client <-} . flip _.{portfolio <-} . flip _.{position <-}   
 
 updateSoMany :: (Int -> Int) -> Bank -> Bank
-updateSoMany = updatePosition4 . flip _.{soMany <- }
+updateSoMany = updatePosition4 . flip _.{soMany <-}
 
 main _ = do
     println "--- classic record usage"
-    newPos = bank.client.portfolio.position.{soMany <-} (+1)
-    newPortf = bank.client.portfolio.{position =} newPos
+    newPos    = bank.client.portfolio.position.{soMany <-} (+1)
+    newPortf  = bank.client.portfolio.{position =} newPos
     newClient = bank.client.{portfolio =} newPortf
-    newBank = bank.{client =} newClient
-    nextBank = newBank.{client <- _.{portfolio <- _.{position <- _.{soMany <- (+1) } } } } 
+    newBank   = bank.{client =} newClient
+    nextBank  = newBank.{client <- _.{portfolio <- _.{position <- _.{soMany <- (+1) } } } } 
     
     println $ show bank.client.portfolio.position
     println newPos
