@@ -1,11 +1,13 @@
 module FizzBuzz where
 
-fizzes   = cycle ["", "", "fizz"] 
-buzzes   = cycle ["", "", "", "", "buzz"]
-pattern  = zipWith (++) fizzes buzzes 
-impose num word = max (show num) word
+import Data.Monoid
 
-fizzbuzz = zipWith impose [1..] pattern 
+nums     = map show [1..]
+fizzes   = cycle [Nothing, Nothing, Just "fizz"] 
+buzzes   = cycle [Nothing, Nothing, Nothing, Nothing, Just "buzz"]
+pattern  = zipWith (<>) fizzes buzzes 
+
+fizzbuzz = zipWith fromMaybe nums pattern 
 
 main _ = do
     println $ take 15 fizzbuzz
