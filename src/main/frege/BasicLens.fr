@@ -2,31 +2,34 @@
 module BasicLens where
 
 import frege.data.wrapper.Const 
-import frege.data.wrapper.Identity 
+import frege.data.wrapper.Identity       
 
-getConst :: Const a b -> a
-getConst (Const a) = a
-
-runIdentity :: Identity a -> a
-runIdentity (Identity a) = a
-
+--- the Lens type. See also issue https://github.com/Frege/frege/issues/278
+--- That issue is fixed. We only need to upgrade to the latest compiler
 type Lens s a = forall f. Functor f => (a -> f a) -> s -> f s
 
-view :: Lens s a -> (s -> a)
-view lens = getConst . lens Const
+--     ( Lens s a                      ) → ( s → a )
+--     ((a -> f a     ) → s → f s      ) → ( s → a )
+view ∷ ((v → Const v a) → s → Const a s) → ( s → a )
+view lens = Const.get . lens Const
 
-set :: Lens s a -> (a -> s -> s)
-set lens x = runIdentity . lens (Identity . const x)
+--    (Lens s a )                         → (a → s → s)
+set ∷ ((a → Identity a) → s → Identity s) → (a → s → s)
+set lens x = over lens (const x)
 
-over :: Lens s a -> (a -> a) -> s -> s
-over lens f = runIdentity . lens (Identity . f)
+--     (Lens s a                         ) → (a → a) → (s → s)
+over ∷ ((a → Identity a) → s → Identity s) → (a → a) → (s → s)
+over lens f = Identity.run . lens (Identity . f)
+
+
+-- ===================== example usage =======================
 
 data Bank       = Bank      { client    :: Client     }
 data Client     = Client    { portfolio :: Portfolio  }
 data Portfolio  = Portfolio { position  :: Position   }
-data Position   = Position  { soMany :: Int, ticker :: Ticker }
+data Position   = Position  { soMany    :: Int        }
 
-soManyLens :: Lens Position Int -- Functor f => (Int -> f Int) -> Position -> f Position
+soManyLens :: Lens Position Int 
 soManyLens f p = fmap  p.{soMany =} (f p.soMany)
 
 positionLens :: Lens Portfolio Position
@@ -43,24 +46,28 @@ derive Show Client
 derive Show Portfolio
 derive Show Position
 
-data Ticker = GOOG | MSFT | APPL | CANO | NOOB
-derive Show Ticker
-
 bank = Bank {
     client = Client {
         portfolio = Portfolio {
-            position = Position { soMany = 8, ticker = CANO }
+            position = Position { soMany = 0 }
         }
     }
 }
 
-
 main _ = do    
-    p = Position 0 APPL
-    println $ view soManyLens p
-    println $ set  soManyLens 1 p
-    println $ over soManyLens (+2) p
+    position  = Position  0 
+    portfolio = Portfolio position
+    println $ view soManyLens      position
+    println $ set  soManyLens   1  position
+    println $ over soManyLens (+2) position
     
-    println $ view (positionLens . soManyLens) Portfolio{position=p}
+    println $ view (positionLens . soManyLens)      portfolio
+    println $ set  (positionLens . soManyLens)   3  portfolio
+    println $ over (positionLens . soManyLens) (+4) portfolio
     
-    -- println $ set (clientLens . portfolioLens . positionLens . soManyLens) (3) bank
+    viewLens = clientLens . portfolioLens . positionLens . soManyLens
+    println $ view viewLens bank
+    -- cannot use viewLens for both, view and set/over. Solved with latest compiler (bounds branch)
+    setLens = clientLens . portfolioLens . positionLens . soManyLens
+    println $ set  setLens   5  bank
+    println $ over setLens (+6) bank
