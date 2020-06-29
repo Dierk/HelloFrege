@@ -1,22 +1,28 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ProjectTasksOptions">
-    <TaskOptions isEnabled="true">
-      <option name="arguments" value="-Xss1m -classpath $Classpath$ frege.compiler.Main -inline -make -d $ProjectFileDir$/target/frege -sp $ProjectFileDir$/src/main/frege $FilePath$" />
+    <TaskOptions isEnabled="false">
+      <option name="arguments" value="fregeCompile -Pfrege_file=$FilePath$" />
       <option name="checkSyntaxErrors" value="true" />
-      <option name="description" value="instantly call the frege compiler on *.fr files" />
-      <option name="exitCodeBehavior" value="ERROR" />
+      <option name="description" />
+      <option name="exitCodeBehavior" value="ALWAYS" />
       <option name="fileExtension" value="Haskell" />
-      <option name="immediateSync" value="true" />
-      <option name="name" value="Frege compile" />
+      <option name="immediateSync" value="false" />
+      <option name="name" value="frege compile" />
       <option name="output" value="" />
       <option name="outputFilters">
-        <array />
+        <array>
+          <FilterInfo>
+            <option name="description" value="" />
+            <option name="name" value="" />
+            <option name="regExp" value="$FILE_PATH$:$LINE$: $MESSAGE$" />
+          </FilterInfo>
+        </array>
       </option>
       <option name="outputFromStdout" value="false" />
-      <option name="passParentEnvs" value="true" />
-      <option name="program" value="$JDKPath$/bin/java" />
-      <option name="scopeName" value="Frege Files" />
+      <option name="program" value="$ProjectFileDir$/gradlew" />
+      <option name="runOnExternalChanges" value="false" />
+      <option name="scopeName" value="Current File" />
       <option name="trackOnlyRoot" value="false" />
       <option name="workingDir" value="$ProjectFileDir$" />
       <envs />

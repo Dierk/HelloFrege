@@ -9,14 +9,7 @@ native module where {
   }
 }
 
-data Date = mutable native java.util.Date where
-    native new :: () -> IO Date
-    native toString :: Date -> IO String
-    
-
 native helloNative HelloNative.helloNative :: String -> IO ()
 
 main = do
     helloNative "Foo"
-    date <- Date.new ()    
-    println =<< date.toString

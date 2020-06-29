@@ -17,7 +17,7 @@ infixr 5 `+++`
 data Parser a =  P ([Char] -> [(a,[Char])])
 
 instance Monad Parser where
-   return v     =  P (\inp -> [(v,inp)])
+   pure  v     =  P (\inp -> [(v,inp)])
 -- p >>= f      :: Parser a -> (a -> Parser b) -> Parser b
 --                 p           f
    p >>= f      =  P (\inp -> case parse p inp of

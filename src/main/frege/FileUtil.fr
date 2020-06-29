@@ -6,7 +6,7 @@ module FileUtil where
 --- It returns the empty list in case of any errors.
 listFileNames :: String -> IO [String]
 listFileNames dirname = do
-    dir <- File.new dirname
+    dir = File.new dirname
     maybeFiles <- dir.list
     case maybeFiles of
         Nothing -> return []
