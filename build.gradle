@@ -44,16 +44,14 @@ repositories {
 	flatDir {
          dirs fregeDir
     }
-    mavenLocal()
-    jcenter()
-	maven { // for the snapshots -- only if you need FregeFX
-		url = "https://oss.sonatype.org/content/groups/public"
-	}
+    mavenLocal() // not needed right now, only for later dependencies
+    jcenter()    // not needed right now, only for later dependencies
 }
 
 // we manage dependencies as if it was a Java project
 dependencies {
 	implementation "org.frege-lang:frege:${fregeVersion}"	// disable when running fregeInit
+	// later dependencies go here
 }
 
 task prepareCompileDirs { // prepare all the directories that the frege tasks rely upon

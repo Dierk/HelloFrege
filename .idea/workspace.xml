@@ -1,20 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="001b385c-5919-48c5-a8c7-ec4278f45086" name="Default" comment="">
-      <change afterPath="$PROJECT_DIR$/build.gradle" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/gradle/wrapper/gradle-wrapper.jar" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/gradle/wrapper/gradle-wrapper.properties" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/gradlew" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/gradlew.bat" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/watcherTasks.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/watcherTasks.xml" afterDir="false" />
+    <list default="true" id="001b385c-5919-48c5-a8c7-ec4278f45086" name="Default" comment="update to frege 3.25.84 and gradle build">
+      <change afterPath="$PROJECT_DIR$/.idea/codeStyles/Project.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/codeStyles/codeStyleConfig.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/gradle.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/jarRepositories.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/compiler.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/HelloFrege.iml" beforeDir="false" afterPath="$PROJECT_DIR$/HelloFrege.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/frege/FileUtil.fr" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/frege/FileUtil.fr" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/frege/Parsing.fr" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/frege/Parsing.fr" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/frege/UseJavaInline.fr" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/frege/UseJavaInline.fr" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/frege/FizzBuzz.fr" beforeDir="false" afterPath="$PROJECT_DIR$/target/frege/FizzBuzz.fr" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/build.gradle" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -29,6 +26,42 @@
   </component>
   <component name="CreatePatchCommitExecutor">
     <option name="PATCH_PATH" value="" />
+  </component>
+  <component name="ExternalProjectsData">
+    <projectState path="$PROJECT_DIR$">
+      <ProjectState />
+    </projectState>
+  </component>
+  <component name="ExternalProjectsManager">
+    <system id="GRADLE">
+      <state>
+        <task path="$PROJECT_DIR$">
+          <activation />
+        </task>
+        <projects_view>
+          <tree_state>
+            <expand>
+              <path>
+                <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
+                <item name="HelloFrege" type="f1a62948:ProjectNode" />
+              </path>
+              <path>
+                <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
+                <item name="HelloFrege" type="f1a62948:ProjectNode" />
+                <item name="Tasks" type="e4a08cd1:TasksNode" />
+              </path>
+              <path>
+                <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
+                <item name="HelloFrege" type="f1a62948:ProjectNode" />
+                <item name="Tasks" type="e4a08cd1:TasksNode" />
+                <item name="frege" type="c8890929:TasksNode$1" />
+              </path>
+            </expand>
+            <select />
+          </tree_state>
+        </projects_view>
+      </state>
+    </system>
   </component>
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
@@ -45,13 +78,6 @@
       </map>
     </option>
   </component>
-  <component name="MavenImportPreferences">
-    <option name="generalSettings">
-      <MavenGeneralSettings>
-        <option name="mavenHome" value="Bundled (Maven 3)" />
-      </MavenGeneralSettings>
-    </option>
-  </component>
   <component name="ProjectCodeStyleSettingsMigration">
     <option name="version" value="1" />
   </component>
@@ -64,6 +90,7 @@
     <option name="showModules" value="false" />
   </component>
   <component name="PropertiesComponent">
+    <property name="ASKED_ADD_EXTERNAL_FILES" value="true" />
     <property name="FullScreen" value="true" />
     <property name="GoToClass.includeLibraries" value="false" />
     <property name="GoToClass.toSaveIncludeLibraries" value="false" />
@@ -72,6 +99,7 @@
     <property name="MemberChooser.showClasses" value="true" />
     <property name="MemberChooser.sorted" value="false" />
     <property name="NewWatcherDialog.advanced.open" value="true" />
+    <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="dynamic.classpath" value="false" />
     <property name="extract.method.default.visibility" value="private" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
@@ -234,7 +262,8 @@
       <workItem from="1444673576534" duration="30000" />
       <workItem from="1464534660064" duration="3716000" />
       <workItem from="1593378391921" duration="2275000" />
-      <workItem from="1593446262297" duration="3506000" />
+      <workItem from="1593446262297" duration="3901000" />
+      <workItem from="1593548264479" duration="748000" />
     </task>
     <task id="LOCAL-00001" summary="initial">
       <created>1414261165581</created>
@@ -278,7 +307,14 @@
       <option name="project" value="LOCAL" />
       <updated>1423690510306</updated>
     </task>
-    <option name="localTasksCounter" value="7" />
+    <task id="LOCAL-00007" summary="update to frege 3.25.84 and gradle build">
+      <created>1593449843364</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1593449843364</updated>
+    </task>
+    <option name="localTasksCounter" value="8" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -296,37 +332,46 @@
     <MESSAGE value="initial" />
     <MESSAGE value="add readme" />
     <MESSAGE value="update to frege 3.22.367" />
-    <option name="LAST_COMMIT_MESSAGE" value="update to frege 3.22.367" />
+    <MESSAGE value="update to frege 3.25.84 and gradle build" />
+    <option name="LAST_COMMIT_MESSAGE" value="update to frege 3.25.84 and gradle build" />
   </component>
   <component name="WindowStateProjectService">
     <state x="224" y="198" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1593449649033">
       <screen x="0" y="23" width="1680" height="1027" />
     </state>
     <state x="224" y="198" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.23.1680.1027@0.23.1680.1027" timestamp="1593449649033" />
+    <state x="337" y="112" key="CommitChangelistDialog2" timestamp="1593449843137">
+      <screen x="0" y="23" width="1680" height="1027" />
+    </state>
+    <state x="337" y="112" key="CommitChangelistDialog2/0.23.1680.1027@0.23.1680.1027" timestamp="1593449843137" />
     <state x="412" y="321" width="695" height="627" key="EditFileWatcherDialog" timestamp="1593449468973">
       <screen x="0" y="23" width="1680" height="1027" />
     </state>
     <state x="412" y="321" width="695" height="627" key="EditFileWatcherDialog/0.23.1680.1027@0.23.1680.1027" timestamp="1593449468973" />
-    <state width="1478" height="392" key="GridCell.Tab.0.bottom" timestamp="1593449709644">
+    <state width="1478" height="392" key="GridCell.Tab.0.bottom" timestamp="1593521954920">
       <screen x="0" y="23" width="1680" height="1027" />
     </state>
-    <state width="1478" height="392" key="GridCell.Tab.0.bottom/0.23.1680.1027@0.23.1680.1027" timestamp="1593449709644" />
-    <state width="1478" height="392" key="GridCell.Tab.0.center" timestamp="1593449709642">
+    <state width="1478" height="392" key="GridCell.Tab.0.bottom/0.23.1680.1027@0.23.1680.1027" timestamp="1593521954920" />
+    <state width="1478" height="392" key="GridCell.Tab.0.center" timestamp="1593521954918">
       <screen x="0" y="23" width="1680" height="1027" />
     </state>
-    <state width="1478" height="392" key="GridCell.Tab.0.center/0.23.1680.1027@0.23.1680.1027" timestamp="1593449709642" />
-    <state width="1478" height="392" key="GridCell.Tab.0.left" timestamp="1593449709642">
+    <state width="1478" height="392" key="GridCell.Tab.0.center/0.23.1680.1027@0.23.1680.1027" timestamp="1593521954918" />
+    <state width="1478" height="392" key="GridCell.Tab.0.left" timestamp="1593521954917">
       <screen x="0" y="23" width="1680" height="1027" />
     </state>
-    <state width="1478" height="392" key="GridCell.Tab.0.left/0.23.1680.1027@0.23.1680.1027" timestamp="1593449709642" />
-    <state width="1478" height="392" key="GridCell.Tab.0.right" timestamp="1593449709643">
+    <state width="1478" height="392" key="GridCell.Tab.0.left/0.23.1680.1027@0.23.1680.1027" timestamp="1593521954917" />
+    <state width="1478" height="392" key="GridCell.Tab.0.right" timestamp="1593521954919">
       <screen x="0" y="23" width="1680" height="1027" />
     </state>
-    <state width="1478" height="392" key="GridCell.Tab.0.right/0.23.1680.1027@0.23.1680.1027" timestamp="1593449709643" />
+    <state width="1478" height="392" key="GridCell.Tab.0.right/0.23.1680.1027@0.23.1680.1027" timestamp="1593521954919" />
     <state x="281" y="170" key="SettingsEditor" timestamp="1593449482181">
       <screen x="0" y="23" width="1680" height="1027" />
     </state>
     <state x="281" y="170" key="SettingsEditor/0.23.1680.1027@0.23.1680.1027" timestamp="1593449482181" />
+    <state x="360" y="263" key="Vcs.Push.Dialog.v2" timestamp="1593449847187">
+      <screen x="0" y="23" width="1680" height="1027" />
+    </state>
+    <state x="360" y="263" key="Vcs.Push.Dialog.v2/0.23.1680.1027@0.23.1680.1027" timestamp="1593449847187" />
     <state x="458" y="291" width="604" height="490" key="find.popup" timestamp="1593449781594">
       <screen x="0" y="23" width="1680" height="1027" />
     </state>
