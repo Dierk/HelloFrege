@@ -8,7 +8,7 @@
 plugins {
   id "application" // implies java
 }
-mainClassName = "CoverFlow"
+mainClassName = "HelloFrege"
 
 ext {
 	javaTarget   = 1.8
